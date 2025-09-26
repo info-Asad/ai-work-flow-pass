@@ -1,0 +1,487 @@
+{
+  "name": "this again",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -800,
+        -660
+      ],
+      "id": "9613ab19-553a-44c1-b5b3-b54c6f8616d4",
+      "name": "When chat message received",
+      "webhookId": "65af29f5-6fbc-4cd9-961c-e51b1cfffeb5"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2760,
+        -720
+      ],
+      "id": "f1768798-61f0-48ba-8745-1c4beca85ba0",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        580,
+        -820
+      ],
+      "id": "99cf3cd4-1952-4ca3-ac66-451c3fd9a85c",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "rhWEey0yV53iqCu5",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1660,
+        440
+      ],
+      "id": "6173a720-d80a-40e0-8864-c066896db0be",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "inputText": "=user id:\n{{ $json.sessionId }}\nchat:\n{{ $json.chatInput }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Thinking",
+              "description": "Any chat where the user is just thinking about ordering"
+            },
+            {
+              "category": "Order with Details",
+              "description": "ny chat where the user provides the product name, quantity, and their email  like product name, quantity, and their email"
+            },
+            {
+              "category": "Order with Name",
+              "description": "Any chat where the user provides only the product name"
+            },
+            {
+              "category": "Order with Quantity",
+              "description": "Any chat where the user provides only the product quantity"
+            },
+            {
+              "category": "Order No Email",
+              "description": "Any chat where the user provides the product name and quantity, but does not provide their email"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -520
+      ],
+      "id": "2466fbf3-e652-4ad6-b5bb-dca817037361",
+      "name": "oder detail filter"
+    },
+    {
+      "parameters": {
+        "inputText": "=user id: \n{{ $json.sessionId }}\nchat massage:\n{{ $json.chatInput }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Product Detail",
+              "description": "Any chat in which the user wants to get details about a product"
+            },
+            {
+              "category": "Order",
+              "description": "Any chat in which the user places or  give order for a product or get  detail about any order  like  product name, quantity, and email"
+            },
+            {
+              "category": "About ",
+              "description": "Any chat in which the user is asking for details about the website, company, or how it works"
+            },
+            {
+              "category": "extara ",
+              "description": "any chat like hi ,hello, or base on personal info and about you"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -520,
+        -760
+      ],
+      "id": "4e9bb9d4-95c2-4dbf-8077-34538c1dac2d",
+      "name": "input filter"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a customer support assistant your name is iconic "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1600,
+        -360
+      ],
+      "id": "664cb7a7-076a-4b99-bed5-9ba24158714e",
+      "name": "for product detail"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a customer support assistant your name is iconic "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1640,
+        -40
+      ],
+      "id": "9a79b81e-85c3-44f8-a988-e680ed2d699e",
+      "name": "about"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a customer support assistant your name is iconic "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1660,
+        180
+      ],
+      "id": "86a092ee-d7bc-445a-94b8-1214060555af",
+      "name": "personal"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a customer support assistant your name is iconic  and say pls file is fome\nthis is my oder \nProduct Name:\nQuantity:\nEmail Address:\n\nin same formate  and say copy this fome and file "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1640,
+        680
+      ],
+      "id": "3bcba218-11df-4632-ab77-510ca09e2fd4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "text": "=chat:\n{{ $json.chatInput }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"product\": \"product are provided in the chat \",\n\t\"Quantity\": \"quntiy are provided in chat\",\n\t\"Email\": \"that provided in chat\"\n  \n}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        900
+      ],
+      "id": "69a01134-6b8b-4462-9ef2-2725cc602603",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1VAzr-5BGWVZrD2MvwK9flIEfEc5VOeOoOHitXNRHgKA/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VAzr-5BGWVZrD2MvwK9flIEfEc5VOeOoOHitXNRHgKA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "product ": "={{ $json.output.product }}",
+            "quntity": "={{ $json.output.Quantity }}",
+            "email": "={{ $json.output.Email }}"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "product ",
+              "displayName": "product ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "quntity",
+              "displayName": "quntity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2740,
+        300
+      ],
+      "id": "775dc3c7-01c5-4616-9d4f-9a3edf101e78",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "urQzHFPBJBuYW8Kx",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a customer support assistant your name is iconic you are say \n\nThank you for your order! 🙏\nWe’ve received the following details:\n\nProduct Name: {{product_name}}\n\nQuantity: {{quantity}}\n\nEmail Address: {{email}}\n\nIf you need any help or would like to given another order, I’m here to assist you anytime. 😊"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1720,
+        1080
+      ],
+      "id": "4bdb5540-fbf8-41c8-a56c-6d74e26a93c2",
+      "name": "AI Agent1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "input filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "personal",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "for product detail",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "about",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "personal",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "for product detail",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "about",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "input filter",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "oder detail filter",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        []
+      ]
+    },
+    "input filter": {
+      "main": [
+        [
+          {
+            "node": "for product detail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "oder detail filter",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "about",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "personal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "oder detail filter": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ca349e73-3672-41e4-b112-e42ef39883db",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b58f5a11fe571ffc86702603a2add3f70cd16968914e2e54c277d4aa40291664"
+  },
+  "id": "C30BohgNM7kSAXay",
+  "tags": []
+}

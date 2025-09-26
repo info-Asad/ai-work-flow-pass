@@ -1,0 +1,269 @@
+{
+  "metadata": {
+    "language_detected": "mathematical",
+    "document_type": "image",
+    "page_count": 1,
+    "ocr_engine": "Tesseract 5.5.0.20241111 (Enhanced)",
+    "timestamp": "2025-06-29T00:12:04.824988Z",
+    "processing_mode": "enhanced_multilingual",
+    "enhanced_features": {
+      "multilingual_support": true,
+      "mathematical_formulas": true,
+      "arabic_urdu_optimized": true,
+      "advanced_preprocessing": true
+    },
+    "statistics": {
+      "total_characters": 1621,
+      "total_mathematical_formulas": 15,
+      "language_distribution": {
+        "english": 1621
+      },
+      "primary_language": "mathematical"
+    }
+  },
+  "content": [
+    {
+      "page_number": 1,
+      "paragraphs": [
+        {
+          "paragraph_number": 1,
+          "text": "74 5tocks in bo1d tose or. fe11 5% or mores, 278. 805 ates > A RAT WEA] Track your investments with our continuous1y 22: » RBTIERY Track your investments with our continuous1y \"=. \" set p1on×. Yg updated stocks: Visit us onthe web C55 rasaee f 7, EC money. usatoday. com- =\": 5pe Ree]. eh Moh C1ow © stock 2: 2-72 Last Chonge “|'-High’ ” Low 5teck’ +3. Last’ Change =|- GE5 EE Aer PBI 29 Biomo1 aero. ; LUA en ee ee 96 21207 1omira 2. 974 1. 48 003°] BN E5 ee A rere ead \"2 518) B1oserip = 1895/04: 5T 9g He a9\" AB× A1es veo y 0a 1p\" |. 68, 68 50. 65 Bios! ao) 150, 05 457: |: 55Rs pag: AGM A1e, 5 782. 2010\" oe ated: B1otechT 2 5: 204. 46'=0. 84-1. Ae B138 T1351 LADAME5 5 20. 98 2. 16) |: . - 8. 50. °1. 40- BirchMt on %' \"6. 52\" 0. 45\" | 2/6 214 12, 83 5ADC Te1 75: 5 23. 21 H0, 13: \"| = 18-21-510. 73 ° Bickboud '-°. 17. 90. £0. 70. | 2 3 130408 16. 70 ADE Cp. \" 2, 97. 92 (40. 73 | 2223: 13. 86 “B1oat 2: 1) 241. 29+1. 30\" | at I5A5 5N0UT ABC Ent 320 15. 40 20. 14 2] 4495 24-15 “BIu0NTTe 2 $40: 905=1. 10\" | « 7 83772450 CA5E Tat 2 77640, 26452 19. 91' 5 B0bE yn oh 2122. 99, : EAN9. 25 12. 25 A5MA’ Int1 17. 65. 5= 0, 03; | 15. 947 6. 12. Bod1sen a@718: 45)-t0a5 | 220, 92 713, 94 A5MLIMIG 3-21. 28 0046 e | 8. 21 321. 56 | Bookham's<. °7. $. 94 40. 06\" |: Tag 7-88 |. 16. 39 VA5V Ines 26. 76 F0. 14; : | vy, 2-80. 4. 99: Bor1and © 20 = 6, 68 0. 14\" | 2599682 £10. 47 CAT Tech < 217, 890. 68 | 31-90, -21102 BostPry: /2=/31. 18- 0. 077 * 2D°93. 62 120. 53 | ATM Ine =< 29. 95 “41. 29 ¢| 18. 62. 1001. Bttming $ 5--4153 240. 20 |! 1839. 20 16. 76 ATP 081. 28. 40 0159. '| 1468 07. 10. Br1oE×pés, <7 12, 100. 23: | «",
+          "confidence_estimate": 37.5,
+          "detected_language": "english",
+          "character_count": 1621,
+          "mathematical_formulas": [
+            {
+              "formula": "2-72",
+              "start_pos": 309,
+              "end_pos": 313,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "1895/04",
+              "start_pos": 490,
+              "end_pos": 497,
+              "type": "fraction",
+              "pattern_id": 0
+            },
+            {
+              "formula": "84-1",
+              "start_pos": 644,
+              "end_pos": 648,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "2/6",
+              "start_pos": 741,
+              "end_pos": 744,
+              "type": "fraction",
+              "pattern_id": 0
+            },
+            {
+              "formula": "18-21",
+              "start_pos": 791,
+              "end_pos": 796,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "29+1",
+              "start_pos": 918,
+              "end_pos": 922,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "24-15",
+              "start_pos": 978,
+              "end_pos": 983,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "905=1",
+              "start_pos": 1001,
+              "end_pos": 1006,
+              "type": "unknown",
+              "pattern_id": 0
+            },
+            {
+              "formula": "3-21",
+              "start_pos": 1197,
+              "end_pos": 1201,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "7-88",
+              "start_pos": 1268,
+              "end_pos": 1272,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "2-80",
+              "start_pos": 1316,
+              "end_pos": 1320,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "31-90",
+              "start_pos": 1401,
+              "end_pos": 1406,
+              "type": "arithmetic",
+              "pattern_id": 0
+            },
+            {
+              "formula": "1895/04",
+              "start_pos": 490,
+              "end_pos": 497,
+              "type": "fraction",
+              "pattern_id": 5
+            },
+            {
+              "formula": "2/6",
+              "start_pos": 741,
+              "end_pos": 744,
+              "type": "fraction",
+              "pattern_id": 5
+            },
+            {
+              "formula": "(40. 73 | 2223: 13. 86 “B1oat 2: 1)",
+              "start_pos": 877,
+              "end_pos": 912,
+              "type": "expression",
+              "pattern_id": 7
+            }
+          ]
+        }
+      ],
+      "enhanced_metadata": {
+        "content_analysis": {
+          "arabic_urdu_ratio": 0.032418952618453865,
+          "english_ratio": 0.470074812967581,
+          "math_ratio": 0.5236907730673317,
+          "total_chars": 802,
+          "sample_text": "Stocks in bold rose or fell 5% or more\n5 ‏هدنا‎ Track your investments with our continuously\nLe %.\\ "
+        },
+        "ocr_method": "english",
+        "total_mathematical_formulas": 15,
+        "mathematical_formulas": [
+          {
+            "formula": "2-72",
+            "start_pos": 309,
+            "end_pos": 313,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "1895/04",
+            "start_pos": 490,
+            "end_pos": 497,
+            "type": "fraction",
+            "pattern_id": 0
+          },
+          {
+            "formula": "84-1",
+            "start_pos": 644,
+            "end_pos": 648,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "2/6",
+            "start_pos": 741,
+            "end_pos": 744,
+            "type": "fraction",
+            "pattern_id": 0
+          },
+          {
+            "formula": "18-21",
+            "start_pos": 791,
+            "end_pos": 796,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "29+1",
+            "start_pos": 918,
+            "end_pos": 922,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "24-15",
+            "start_pos": 978,
+            "end_pos": 983,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "905=1",
+            "start_pos": 1001,
+            "end_pos": 1006,
+            "type": "unknown",
+            "pattern_id": 0
+          },
+          {
+            "formula": "3-21",
+            "start_pos": 1197,
+            "end_pos": 1201,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "7-88",
+            "start_pos": 1268,
+            "end_pos": 1272,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "2-80",
+            "start_pos": 1316,
+            "end_pos": 1320,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "31-90",
+            "start_pos": 1401,
+            "end_pos": 1406,
+            "type": "arithmetic",
+            "pattern_id": 0
+          },
+          {
+            "formula": "1895/04",
+            "start_pos": 490,
+            "end_pos": 497,
+            "type": "fraction",
+            "pattern_id": 5
+          },
+          {
+            "formula": "2/6",
+            "start_pos": 741,
+            "end_pos": 744,
+            "type": "fraction",
+            "pattern_id": 5
+          },
+          {
+            "formula": "(40. 73 | 2223: 13. 86 “B1oat 2: 1)",
+            "start_pos": 877,
+            "end_pos": 912,
+            "type": "expression",
+            "pattern_id": 7
+          }
+        ],
+        "processing_quality": "enhanced",
+        "all_ocr_attempts": {
+          "math": 51.34782608695652,
+          "english": 37.47342995169082,
+          "multilingual": 44.990196078431374
+        }
+      }
+    }
+  ]
+}

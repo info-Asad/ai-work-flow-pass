@@ -1,0 +1,132 @@
+{
+  "name": "AI Order Support Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "WebhookTrigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "sheetId": "your_product_sheet_id",
+        "range": "Sheet1!A:D"
+      },
+      "id": "GetProductData",
+      "name": "Get Product Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "prompt": "You are an AI assistant helping with product questions and orders. Based on the user's message and the product data below, respond accordingly. If the message is an order, return {\"isOrder\": true, \"product\": \"Product Name\"}. Otherwise, return {\"isOrder\": false}.\n\nUser Message: {{$json[\"body\"]}}\n\nProduct List:\n{{$json[\"products\"]}}",
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.7
+      },
+      "id": "OpenAI",
+      "name": "OpenAI",
+      "type": "n8n-nodes-base.openai",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$json[\"isOrder\"]}}",
+              "operation": "isTrue"
+            }
+          ]
+        }
+      },
+      "id": "IfIsOrder",
+      "name": "Is Order?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "sheetId": "your_order_sheet_id",
+        "range": "Orders!A:D",
+        "options": {},
+        "valueInputMode": "USER_ENTERED",
+        "dataToSend": [
+          {
+            "column": "Customer Name",
+            "value": "={{$json[\"name\"]}}"
+          },
+          {
+            "column": "Email",
+            "value": "={{$json[\"email\"]}}"
+          },
+          {
+            "column": "Product Ordered",
+            "value": "={{$json[\"product\"]}}"
+          },
+          {
+            "column": "Timestamp",
+            "value": "={{$now}}"
+          }
+        ]
+      },
+      "id": "AppendOrderToSheet",
+      "name": "Store Order",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        1050,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          "Get Product Data"
+        ]
+      ]
+    },
+    "Get Product Data": {
+      "main": [
+        [
+          "OpenAI"
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          "IfIsOrder"
+        ]
+      ]
+    },
+    "IfIsOrder": {
+      "main": [
+        [],
+        [
+          "Store Order"
+        ]
+      ]
+    }
+  }
+}

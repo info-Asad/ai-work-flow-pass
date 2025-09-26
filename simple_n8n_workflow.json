@@ -1,0 +1,178 @@
+{
+  "name": "Simple Document Processing with Gemini",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "simple-process",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.document_url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "fetch-document",
+      "name": "Fetch Document",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simple text extraction\nconst responseData = $input.all()[0].json;\nconst originalUrl = $input.all()[0].json.document_url || 'unknown';\n\n// Get the response body (the document content)\nlet documentContent = '';\nif (typeof responseData === 'string') {\n  documentContent = responseData;\n} else if (responseData.body) {\n  documentContent = responseData.body;\n} else if (responseData.data) {\n  documentContent = responseData.data;\n} else {\n  documentContent = JSON.stringify(responseData);\n}\n\n// Limit content length to avoid token limits\nif (documentContent.length > 10000) {\n  documentContent = documentContent.substring(0, 10000) + '... [truncated]';\n}\n\nreturn {\n  document_url: originalUrl,\n  document_content: documentContent,\n  content_length: documentContent.length\n};"
+      },
+      "id": "process-content",
+      "name": "Process Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "contents",
+              "value": "={{ [{'parts': [{'text': 'Please analyze and summarize this document:\\n\\n' + $json.document_content}]}] }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "gemini-request",
+      "name": "Send to Gemini",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format final response\nconst geminiResponse = $input.all()[0].json;\nconst documentData = $input.all()[0].json;\n\nlet aiResponse = '';\nlet status = 'success';\n\ntry {\n  if (geminiResponse.candidates && geminiResponse.candidates.length > 0) {\n    aiResponse = geminiResponse.candidates[0].content.parts[0].text;\n  } else if (geminiResponse.error) {\n    aiResponse = 'Gemini API Error: ' + JSON.stringify(geminiResponse.error);\n    status = 'error';\n  } else {\n    aiResponse = 'No response from Gemini AI';\n    status = 'error';\n  }\n} catch (error) {\n  aiResponse = 'Error processing response: ' + error.message;\n  status = 'error';\n}\n\nreturn {\n  status: status,\n  document_url: documentData.document_url || 'unknown',\n  content_length: documentData.content_length || 0,\n  ai_response: aiResponse,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "format-response",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "send-response",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ {'error': 'Failed to fetch document', 'message': $json.error ? $json.error.message : 'Unknown error'} }}"
+      },
+      "id": "error-response",
+      "name": "Error Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [460, 480]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Document": {
+      "main": [
+        [
+          {
+            "node": "Process Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Content": {
+      "main": [
+        [
+          {
+            "node": "Send to Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Gemini": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "Send Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "name": "WeChat AI Support Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "wechat-incoming",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "Webhook Trigger",
+      "name": "WeChat Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "\nconst msg = $json.body?.message || $json.query?.message || '';\n\n// Save incoming message\nreturn [{\n  json: {\n    message: msg,\n    sessionId: $json.body?.userId || 'default-session'\n  }\n}];\n"
+      },
+      "id": "Extract Message",
+      "name": "Extract Message",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are a helpful customer support agent. Assist customers by providing product information when they give a Google Sheet URL. Ask for email, product URL, and quantity when they want to order. Confirm before storing order."
+          },
+          {
+            "role": "user",
+            "content": "={{$json[\"message\"]}}"
+          }
+        ]
+      },
+      "id": "AI Chat Agent",
+      "name": "AI Chat Agent",
+      "type": "n8n-nodes-base.openai",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ],
+      "credentials": {
+        "openAiApi": "OpenAI Account"
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "sheetId": "PASTE_PRODUCT_SHEET_ID",
+        "range": "Sheet1!A:D"
+      },
+      "id": "Fetch Product Data",
+      "name": "Fetch Product Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        750,
+        500
+      ],
+      "credentials": {
+        "googleApi": "Google Sheets API"
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "sheetId": "PASTE_ORDER_SHEET_ID",
+        "range": "Orders!A:C",
+        "valueInputMode": "RAW"
+      },
+      "id": "Store Order",
+      "name": "Store Order",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        750,
+        700
+      ],
+      "credentials": {
+        "googleApi": "Google Sheets API"
+      }
+    }
+  ],
+  "connections": {
+    "WeChat Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Message": {
+      "main": [
+        [
+          {
+            "node": "AI Chat Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "v1"
+}

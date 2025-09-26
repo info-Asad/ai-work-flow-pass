@@ -1,0 +1,122 @@
+{
+  "name": "Bilad AI Agent - Customer Support",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "bilad-agent",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "Webhook Trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "sheetId": "YOUR_PRODUCT_SHEET_ID",
+        "range": "Sheet1!A:D"
+      },
+      "id": "Fetch Products",
+      "name": "Fetch Products",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        500,
+        300
+      ],
+      "credentials": {
+        "googleApi": "Google Sheets API"
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "\nconst rows = items[0].json.data || [];\nlet message = \"Here are our available products:\\n\\n\";\n\nrows.forEach((row, index) => {\n  message += `${index + 1}. ${row[0]} - $${row[2]}\\n`;\n});\n\nmessage += \"\\nPlease reply with your name and email to place an order.\";\n\nreturn [{ json: { message } }];\n"
+      },
+      "id": "Format Product List",
+      "name": "Format Product List",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        750,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "\nconst { name, email, order } = items[0].json;\nreturn [{\n  json: {\n    Name: name,\n    Email: email,\n    Product: order,\n    Timestamp: new Date().toISOString()\n  }\n}];\n"
+      },
+      "id": "Prepare Order",
+      "name": "Prepare Order",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        750,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "sheetId": "YOUR_ORDER_SHEET_ID",
+        "range": "Orders!A:D",
+        "valueInputMode": "RAW",
+        "options": {}
+      },
+      "id": "Store Order",
+      "name": "Store Order",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        950,
+        500
+      ],
+      "credentials": {
+        "googleApi": "Google Sheets API"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Products",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Products": {
+      "main": [
+        [
+          {
+            "node": "Format Product List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Order": {
+      "main": [
+        [
+          {
+            "node": "Store Order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "v1"
+}
